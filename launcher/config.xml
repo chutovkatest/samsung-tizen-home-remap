@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
+        id="https://example.invalid/tizen/hdmi-home" version="0.1.0" viewmodes="maximized">
+  <name>HDMI Home (Example)</name>
+  <content src="index.html" />
+  <tizen:application id="HdmiHome01.Launcher" package="HdmiHome01" required_version="5.0" />
+  <tizen:profile name="tv-samsung" />
+  <tizen:privilege name="http://tizen.org/privilege/tv.window" />
+  <tizen:setting screen-orientation="landscape" context-menu="disable"
+                 background-support="disable" encryption="disable" install-location="auto" />
+</widget>
