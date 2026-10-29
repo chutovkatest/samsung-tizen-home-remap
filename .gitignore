@@ -1,0 +1,33 @@
+# Outputs, binaries and signing assets
+/dist/
+*.tpk
+*.wgt
+*.p12
+*.pfx
+*.pem
+*.key
+*.crt
+*.cert
+*.der
+*.jks
+*.keystore
+*.mobileprovision
+*.db
+*.sqlite*
+*.log
+*.bak
+*.dump
+*.zip
+*.tar*
+# Private environment and captures
+/.env*
+/private/
+/reports/
+/keys/
+/*baseline*.json
+/*report*.json
+*.pyc
+__pycache__/
+.DS_Store
+.vscode/
+.idea/
