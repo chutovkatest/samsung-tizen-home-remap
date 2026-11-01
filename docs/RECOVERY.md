@@ -2,6 +2,27 @@
 
 **Warning:** The rule carrier can take ownership of the Samsung FirstScreen `XF86Home` rule. **Never uninstall the active carrier first.** Restore the stock Samsung route using a signed, higher-version restore package, verify it, then (if needed) install a neutral carrier that releases the registration. Removing a carrier prematurely can also remove an owned system rule.
 
+## How to obtain the baseline: current limitation (1 November 2026)
+
+This repository **does not provide a tool to extract** the original `key_filter` or `managed_app` tables. The JSON below is a **fictional schema example**, not a valid snapshot for an actual TV. `tools/build.py` only validates an independently obtained report; it does **not** connect to a TV or determine whether the source was collected safely. Do not invent values or assume that a matching model family has the same system rule.
+
+On some retail Tizen 5.5 TVs the developer SDB connection allows an installed-app listing but closes the ordinary shell. For example, the owner of a QE32LS03TCUXZT reported that `sdb shell 0 vd_applist` works, while the interactive shell is unavailable ([AeroTizen #75](https://github.com/helalaou/AeroTizen/issues/75)). **An app listing is not a snapshot of the protected Home key-routing database**.
+
+The related [samsung-tizen-homekey](https://github.com/gtalusan/samsung-tizen-homekey) project documents inspection of `/opt/dbspace/.app-context.db` through a `uid-901` device shell on a different Tizen 5.5 TV (2020 Q90T). Its added rule reportedly coexists with Samsung's Home rule and briefly shows Smart Hub. That is not equivalent to the original private Tizen 5.0 result in this repository, which changed the existing FirstScreen rule and avoided Smart Hub during one physical Home-from-YouTube test.
+
+**Safe, non-modifying preliminary checks for an owner with a working Tizen SDK/SDB connection** (replace the placeholder with the actual SDB device serial; do not publish that serial or your IP):
+
+```sh
+sdb -s TV_DEVICE_SERIAL capability
+sdb -s TV_DEVICE_SERIAL shell 0 vd_applist
+```
+
+These checks only establish available developer capabilities and whether that particular application-list command works. **They cannot extract or validate the required baseline**, and a failed command should not prompt privilege escalation or blind installation. Do not attempt to read protected databases by exploiting SDB command parsing, changing file permissions, or modifying the live SQLite file.
+
+**Current decision for a Tizen 5.5 model without independently verified original rule capture and recovery:** STOP. We do not have a tested non-root collector or model-specific restore procedure. Do not install an apply carrier. A signed restore TPK that has merely been generated is not proof that it can recover the TV.
+
+If you wish to contribute a compatibility report, share only the model, firmware, Tizen version, non-sensitive SDB capability flags and outcome. Keep database contents, device IDs, signing keys, certificates, IP addresses and full logs private.
+
 ## Baseline validation
 
 Before building, safely collect the *original* rule through a trusted **read-only** inspection of your own TV. Do not edit the live database. The builder expects a local JSON report with the minimal schema below. Replace the example row IDs with local values. **This example is fictional; it is not a dump of anyone's TV.**
